@@ -36,7 +36,8 @@ public class Controller {
         return students;
     }
 
-    //Spring Cacheable
+    //Spring Cacheable - Tự tạo 1 entry cache tên là students, sau đó lấy return value của method để gán cho nó
+    // Nếu có rồi thì return thẳng về entry cache mà ko thực thi hàm
     @Cacheable("students")
     @GetMapping("cache")
     public List<Student> findAll2() {
@@ -45,9 +46,9 @@ public class Controller {
     }
 
     // Evict: xóa toàn bộ cache "students" khi save
-    // @CacheEvict(value = "students", allEntries = true)
+    @CacheEvict(value = "students", allEntries = true)
     // Put: lấy giá trị return của hàm set cho entry cache
-    @CachePut(value = "students")
+    //@CachePut(value = "students")
     @PostMapping("cache")
     public Student save2(@RequestBody Student student) {
        return studentRepository.save(student);
